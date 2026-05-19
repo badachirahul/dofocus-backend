@@ -1,9 +1,8 @@
 package routes
 
 import (
-	"fmt"
-
 	"github.com/badachirahul/dofocus-backend/internal/handler"
+	"github.com/badachirahul/dofocus-backend/internal/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,9 +18,13 @@ func SetupRoutes(router *gin.Engine) {
 			authRoutes.POST("/login", handler.LoginUser)
 		}
 
-		taskRoutes := api.Group("/task")
+		taskRoutes := api.Group("/tasks")
+		taskRoutes.Use(middleware.AuthMiddleware())
 		{
-			fmt.Print(taskRoutes)
+			taskRoutes.POST("/", handler.CreateTask)
+			taskRoutes.GET("/", handler.GetTasks)
+			taskRoutes.PUT("/:id", handler.UpdateTask)
+			taskRoutes.DELETE(("/:id"), handler.DeleteTask)
 		}
 	}
 }

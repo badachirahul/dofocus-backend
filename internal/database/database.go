@@ -35,6 +35,7 @@ func ConnectDatabase() {
 	err = DB.AutoMigrate(
 		&models.User{},
 		&models.OTPVerification{},
+		&models.Task{},
 	)
 
 	if err != nil {
