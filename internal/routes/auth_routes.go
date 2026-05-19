@@ -1,24 +1,27 @@
 package routes
 
 import (
+	"fmt"
+
 	"github.com/badachirahul/dofocus-backend/internal/handler"
 	"github.com/gin-gonic/gin"
 )
 
 func SetupRoutes(router *gin.Engine) {
 
-	router.GET("/health", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "DoFocus backend running",
-		})
-	})
-
-	authRoutes := router.Group("/auth")
+	api := router.Group("/api/v1")
 	{
-		authRoutes.POST("/send-otp", handler.SendOTP)
-		authRoutes.POST("/verify-otp", handler.VerifyOTP)
+		authRoutes1 := api.Group("/auth")
+		{
+			authRoutes1.POST("/send-otp", handler.SendOTP)
+			authRoutes1.POST("/verify-otp", handler.VerifyOTP)
+			authRoutes1.POST("/register", handler.RegisterUser)
+			authRoutes1.POST("/login", handler.LoginUser)
+		}
 
-		authRoutes.POST("/register", handler.RegisterUser)
-		authRoutes.POST("/login", handler.LoginUser)
+		authRoutes2 := api.Group("/task")
+		{
+			fmt.Print(authRoutes2)
+		}
 	}
 }
