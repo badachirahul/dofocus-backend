@@ -8,19 +8,26 @@ import (
 	"github.com/google/uuid"
 )
 
-func CreateTask(title string, userID string) error {
+func CreateTask(taskName string, userID string) (*models.Task, error) {
+
 	parsedUserID, err := uuid.Parse(userID)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	task := models.Task{
-		Title:  title,
-		UserID: parsedUserID,
+		TaskName: taskName,
+		UserID:   parsedUserID,
 	}
 
-	return database.DB.Create(&task).Error
+	err = database.DB.Create(&task).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &task, nil
 }
 
 func GetTasks(userID string) ([]models.Task, error) {
@@ -37,7 +44,7 @@ func GetTasks(userID string) ([]models.Task, error) {
 	return tasks, nil
 }
 
-func UpdateTask(taskID string, title string, completed bool, userID string) error {
+func UpdateTask(taskID string, taskName string, completed bool, userID string) error {
 	var task models.Task
 
 	err := database.DB.
@@ -48,7 +55,7 @@ func UpdateTask(taskID string, title string, completed bool, userID string) erro
 		return errors.New("task not found")
 	}
 
-	task.Title = title
+	task.TaskName = taskName
 	task.Completed = completed
 
 	return database.DB.Save(&task).Error

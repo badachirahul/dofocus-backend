@@ -5,18 +5,18 @@ import (
 	"github.com/badachirahul/dofocus-backend/internal/repository"
 )
 
-func CreateTask(title string, userID string) error {
-	return repository.CreateTask(title, userID)
+func CreateTask(taskName string, userID string) (*models.Task, error) {
+	return repository.CreateTask(taskName, userID)
 }
 
 func GetTasks(userID string) ([]models.Task, error) {
 	return repository.GetTasks(userID)
 }
 
-func UpdateTask(taskID string, title string, completed bool, userID string) error {
+func UpdateTask(taskID string, taskName string, completed bool, userID string) error {
 	return repository.UpdateTask(
 		taskID,
-		title,
+		taskName,
 		completed,
 		userID,
 	)

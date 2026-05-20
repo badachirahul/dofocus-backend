@@ -10,7 +10,7 @@ import (
 type Task struct {
 	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
-	Title       string `gorm:"not null" json:"title"`
+	TaskName string `gorm:"not null" json:"task_name"`
 
 	Completed bool `gorm:"default:false" json:"completed"`
 

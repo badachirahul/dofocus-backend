@@ -8,7 +8,7 @@ import (
 )
 
 type CreateTaskRequest struct {
-	Title string `json:"title" binding:"required"`
+	TaskName string `json:"task_name" binding:"required"`
 }
 
 func CreateTask(c *gin.Context) {
@@ -23,7 +23,10 @@ func CreateTask(c *gin.Context) {
 
 	userID := c.GetString("user_id")
 
-	err := service.CreateTask(request.Title, userID)
+	task, err := service.CreateTask(
+		request.TaskName,
+		userID,
+	)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -34,6 +37,7 @@ func CreateTask(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Task created successfully",
+		"task":    task,
 	})
 }
 
@@ -55,7 +59,7 @@ func GetTasks(c *gin.Context) {
 }
 
 type UpdateTaskRequest struct {
-	Title     string `json:"title" binding:"required"`
+	TaskName  string `json:"task_name" binding:"required"`
 	Completed bool   `json:"completed"`
 }
 
@@ -75,7 +79,7 @@ func UpdateTask(c *gin.Context) {
 
 	err := service.UpdateTask(
 		taskID,
-		request.Title,
+		request.TaskName,
 		request.Completed,
 		userID,
 	)

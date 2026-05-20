@@ -21,8 +21,8 @@ func SetupRoutes(router *gin.Engine) {
 		taskRoutes := api.Group("/tasks")
 		taskRoutes.Use(middleware.AuthMiddleware())
 		{
-			taskRoutes.POST("/", handler.CreateTask)
-			taskRoutes.GET("/", handler.GetTasks)
+			taskRoutes.POST("", handler.CreateTask)
+			taskRoutes.GET("", handler.GetTasks)
 			taskRoutes.PUT("/:id", handler.UpdateTask)
 			taskRoutes.DELETE(("/:id"), handler.DeleteTask)
 		}
