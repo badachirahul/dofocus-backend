@@ -117,17 +117,7 @@ func FinishFocusSession(sessionID string, userID string) error {
 	session.LastResumedAt = nil
 
 	// Save session
-	err = repository.UpdateFocusSession(session)
-
-	if err != nil {
-		return err
-	}
-
-	// Mark task completed
-	return repository.MarkTaskCompleted(
-		session.TaskID.String(),
-		userID,
-	)
+	return repository.UpdateFocusSession(session)
 }
 
 func CancelFocusSession(sessionID string, userID string) error {

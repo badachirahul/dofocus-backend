@@ -37,5 +37,12 @@ func SetupRoutes(router *gin.Engine) {
 			focusRoutes.POST("/cancel/:sessionId", handler.CancelFocusSession)
 			focusRoutes.GET("/task/:taskId", handler.GetCurrentSession)
 		}
+
+		profileRoutes := api.Group("/profile")
+		profileRoutes.Use(middleware.AuthMiddleware())
+		{
+			profileRoutes.GET("/:userId", handler.GetProfile)
+			profileRoutes.GET("/:userId/:date", handler.GetDailyProfile)
+		}
 	}
 }
