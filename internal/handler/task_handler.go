@@ -114,3 +114,22 @@ func DeleteTask(c *gin.Context) {
 		"message": "Task deleted successfully",
 	})
 }
+
+func GetTask(c *gin.Context) {
+	taskID := c.Param("id")
+
+	userID := c.GetString("user_id")
+
+	task, err := service.GetTask(taskID, userID)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"task": task,
+	})
+}

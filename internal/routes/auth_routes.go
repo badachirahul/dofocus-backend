@@ -23,6 +23,8 @@ func SetupRoutes(router *gin.Engine) {
 		{
 			taskRoutes.POST("", handler.CreateTask)
 			taskRoutes.GET("", handler.GetTasks)
+			taskRoutes.GET("/:id", handler.GetTask)
+			
 			taskRoutes.PUT("/:id", handler.UpdateTask)
 			taskRoutes.DELETE(("/:id"), handler.DeleteTask)
 		}

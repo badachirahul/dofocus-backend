@@ -84,3 +84,17 @@ func DeleteTask(taskID string, userID string) error {
 	// Delete task
 	return database.DB.Delete(&task).Error
 }
+
+func GetTask(taskID string, userID string) (*models.Task, error) {
+	var task models.Task
+
+	err := database.DB.
+		Where("id = ? AND user_id = ?", taskID, userID).
+		First(&task).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &task, nil
+}

@@ -25,3 +25,7 @@ func UpdateTask(taskID string, taskName string, completed bool, userID string) e
 func DeleteTask(taskID string, userID string) error {
 	return repository.DeleteTask(taskID, userID)
 }
+
+func GetTask(taskID string, userID string) (*models.Task, error) {
+	return repository.GetTask(taskID, userID)
+}

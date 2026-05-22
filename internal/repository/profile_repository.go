@@ -44,10 +44,10 @@ func GetProfile(userID string) (map[string]interface{}, error) {
 		"user": map[string]interface{}{
 			"name":  user.Name,
 			"email": user.Email,
+			"year":  user.CreatedAt.Year(),
 		},
 		"heatmapData": heatmapData,
 	}
-
 	return response, nil
 }
 
