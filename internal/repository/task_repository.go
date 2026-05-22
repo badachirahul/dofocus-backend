@@ -72,5 +72,15 @@ func DeleteTask(taskID string, userID string) error {
 		return errors.New("task not found")
 	}
 
+	// Delete all focus sessions related to this task and user
+	err = database.DB.
+		Where("task_id = ? AND user_id = ?", taskID, userID).
+		Delete(&models.FocusSession{}).Error
+
+	if err != nil {
+		return err
+	}
+
+	// Delete task
 	return database.DB.Delete(&task).Error
 }

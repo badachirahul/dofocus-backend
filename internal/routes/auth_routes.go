@@ -26,5 +26,16 @@ func SetupRoutes(router *gin.Engine) {
 			taskRoutes.PUT("/:id", handler.UpdateTask)
 			taskRoutes.DELETE(("/:id"), handler.DeleteTask)
 		}
+
+		focusRoutes := api.Group("/focus")
+		focusRoutes.Use(middleware.AuthMiddleware())
+		{
+			focusRoutes.POST("/start", handler.StartFocusSession)
+			focusRoutes.POST("/pause/:sessionId", handler.PauseFocusSession)
+			focusRoutes.POST("/resume/:sessionId", handler.ResumeFocusSession)
+			focusRoutes.POST("/finish/:sessionId", handler.FinishFocusSession)
+			focusRoutes.POST("/cancel/:sessionId", handler.CancelFocusSession)
+			focusRoutes.GET("/task/:taskId", handler.GetCurrentSession)
+		}
 	}
 }

@@ -36,6 +36,7 @@ func ConnectDatabase() {
 		&models.User{},
 		&models.OTPVerification{},
 		&models.Task{},
+		&models.FocusSession{},
 	)
 
 	if err != nil {
