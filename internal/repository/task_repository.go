@@ -35,6 +35,7 @@ func GetTasks(userID string) ([]models.Task, error) {
 
 	err := database.DB.
 		Where("user_id = ?", userID).
+		Order("created_at DESC").
 		Find(&tasks).Error
 
 	if err != nil {

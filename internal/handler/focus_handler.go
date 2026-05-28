@@ -47,52 +47,6 @@ func StartFocusSession(c *gin.Context) {
 	})
 }
 
-func PauseFocusSession(c *gin.Context) {
-
-	sessionID := c.Param("sessionId")
-
-	userID := c.GetString("user_id")
-
-	err := service.PauseFocusSession(
-		sessionID,
-		userID,
-	)
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Session paused",
-	})
-}
-
-func ResumeFocusSession(c *gin.Context) {
-
-	sessionID := c.Param("sessionId")
-
-	userID := c.GetString("user_id")
-
-	err := service.ResumeFocusSession(
-		sessionID,
-		userID,
-	)
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Session resumed",
-	})
-}
-
 func FinishFocusSession(c *gin.Context) {
 
 	sessionID := c.Param("sessionId")

@@ -23,8 +23,7 @@ type FocusSession struct {
 	// active | paused | completed | cancelled
 	Status string `gorm:"type:varchar(20);not null" json:"status"`
 
-	// Used when session is currently active
-	LastResumedAt *time.Time `json:"last_resumed_at"`
+	ExpectedEndTime *time.Time `json:"expected_end_time"`
 
 	// First time session started
 	StartedAt time.Time `gorm:"not null" json:"started_at"`

@@ -61,7 +61,6 @@ func CreateFocusSession(taskID string, userID string, timerDurationSeconds int) 
 		TimerDurationSeconds:  timerDurationSeconds,
 		FocusedSeconds:        0,
 		Status:                "active",
-		LastResumedAt:         &now,
 		StartedAt:             now,
 	}
 
@@ -94,10 +93,7 @@ func GetActiveSessionByIDAndUserID(sessionID string, userID string) (*models.Foc
 	return &session, nil
 }
 
-func UpdateFocusSession(
-	session *models.FocusSession,
-) error {
-
+func UpdateFocusSession(session *models.FocusSession) error {
 	return database.DB.Save(session).Error
 }
 
