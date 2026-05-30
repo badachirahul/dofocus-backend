@@ -28,12 +28,15 @@ func GetProfile(userID string) (map[string]interface{}, error) {
 	err = database.DB.
 		Table("focus_sessions").
 		Select(`
-		TO_CHAR(started_at, 'YYYY-MM-DD') as date,
+		TO_CHAR(
+			started_at AT TIME ZONE 'Asia/Kolkata',
+			'YYYY-MM-DD'
+		) as date,
 		SUM(focused_seconds) as count
 	`).
 		Where("user_id = ? AND status = ?", userID, "completed").
-		Group("TO_CHAR(started_at, 'YYYY-MM-DD')").
-		Order("TO_CHAR(started_at, 'YYYY-MM-DD')").
+		Group("TO_CHAR(started_at AT TIME ZONE 'Asia/Kolkata', 'YYYY-MM-DD')").
+		Order("TO_CHAR(started_at AT TIME ZONE 'Asia/Kolkata', 'YYYY-MM-DD')").
 		Scan(&heatmapData).Error
 
 	if err != nil {
@@ -64,9 +67,11 @@ func GetDailyProfile(userID string, date string) (map[string]interface{}, error)
 		Table("focus_sessions").
 		Select("COALESCE(SUM(focused_seconds), 0)").
 		Where(`
-			user_id = ?
-			AND status = ?
-			AND DATE(started_at) = ?
+			focus_sessions.user_id = ?
+			AND focus_sessions.status = ?
+			AND DATE(
+				focus_sessions.started_at AT TIME ZONE 'Asia/Kolkata'
+			) = ?
 		`, userID, "completed", date).
 		Scan(&hourlyFocus).Error
 
@@ -90,7 +95,9 @@ func GetDailyProfile(userID string, date string) (map[string]interface{}, error)
 		Where(`
 			focus_sessions.user_id = ?
 			AND focus_sessions.status = ?
-			AND DATE(focus_sessions.started_at) = ?
+			AND DATE(
+				focus_sessions.started_at AT TIME ZONE 'Asia/Kolkata'
+			) = ?
 		`, userID, "completed", date).
 		Group("tasks.task_name").
 		Order("focused_seconds DESC").

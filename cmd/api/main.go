@@ -17,7 +17,7 @@ func main() {
 
 	router.Use(cors.New(cors.Config{
 		AllowOrigins: []string{
-			"http://localhost:5174",
+			"https://dofocus.vercel.app",
 		},
 		AllowMethods: []string{
 			"GET",
